@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div ng-app="myApp" ng-controller="BaseController">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header card-header-icon"
+					data-background-color="rose">
+					<i class="material-icons">assessment</i>
+				</div>
+				<div class="card-content">
+					<h4 class="card-title">New Base</h4>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">Nicotine<star>* ml</star>
+						</label> <input class="form-control" ng-model="nicotine" name="email"
+							type="number" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">PG<star>* ml</star>
+						</label> <input class="form-control" ng-model="pg" name="email"
+							type="number" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">VG<star>* ml</star>
+						</label> <input class="form-control" ng-model="vg" name="email"
+							type="number" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+
+					<div class="form-group">
+						<label></label>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Put a brief description for
+								your new Category</label>
+							<textarea ng-model="description" class="form-control" rows="5"></textarea>
+							<span class="material-input"></span>
+						</div>
+					</div>
+					<div class="category form-category">
+						<star>*</star>
+						Required fields
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-4 col-sm-4">
+								<legend></legend>
+								<div class="fileinput fileinput-new text-center"
+									data-provides="fileinput">
+									<div class="fileinput-new thumbnail" id="placeholder">
+										<img src="/img/image_placeholder.jpg" alt="...">
+									</div>
+									<div class="fileinput-preview fileinput-exists thumbnail"
+										id="selected_file"></div>
+									<div>
+										<span class="btn btn-rose btn-round btn-file"> <span
+											class="fileinput-new">Select image</span> <span
+											class="fileinput-exists">Change</span> <input type="hidden" />
+											<input type="file" id="files" name="file" accept="image/*" />
+											<div class="ripple-container"></div>
+										</span> <a href="#pablo"
+											class="btn btn-danger btn-round fileinput-exists"
+											data-dismiss="fileinput"><i class="fa fa-times"></i>Remove</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="text-center">
+							<button ng-click="uploadFile()" type="submit"
+								class="btn btn-rose btn-fill btn-wd">Validate</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-init="loadBase()">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-icon"
+						data-background-color="rose">
+						<i class="material-icons">assessment</i>
+					</div>
+					<h4 class="card-title">Available Bases</h4>
+					<div class="card-content">
+						<div class="table-responsive">
+							<table class="table table-shopping">
+								<thead>
+									<tr>
+										<td colspan="6"><form
+												class="navbar-form navbar-right ng-pristine ng-valid"
+												role="search">
+												<div class="form-group is-empty">
+													<input type="text" class="form-control"
+														ng-model="categoryName" placeholder="Search"> <span
+														class="material-input"></span> <span
+														class="material-input"></span>
+												</div>
+												<button type="submit"
+													class="btn btn-white btn-round btn-just-icon">
+													<i class="material-icons">search</i>
+													<div class="ripple-container"></div>
+												</button>
+											</form></td>
+										<td colspan="2" class="text-right"></td>
+									</tr>
+									<tr>
+										<th class="text-center"></th>
+										<th>PG/VG/Nicotine</th>
+										<th class="th-description">Description</th>
+
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="c in bases">
+										<td>
+											<div class="img-container">
+												<img ng-src="{{c.imageUrl}}" alt="...">
+											</div>
+										</td>
+										<td class="td-name"><a href="#jacket">{{c.pg}} /
+												{{c.vg}} / {{c.nicotine}} mg</a> <br> <small>by
+												provider</small></td>
+										<td class="">{{c.description}}</td>
+										<td class="td-number"><small>{{c.date}}</small></td>
+										<td class="td-actions">
+											<button type="button" rel="tooltip" data-placement="left"
+												title="" class="btn btn-simple" ng-click="deleteBase(c)"
+												data-original-title="Remove item">
+												<i class="material-icons">close</i>
+											</button>
+										</td>
+									</tr>
+
+
+									<tr>
+										<td colspan="5"></td>
+										<td class="td-total">Total</td>
+										<td colspan="1" class="td-price"><small></small></td>
+										<td></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

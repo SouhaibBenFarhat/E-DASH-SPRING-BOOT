@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Devices</title>
+</head>
+<body>
+	<div ng-app="myApp" ng-controller="BoitierController">
+		<div class="col-md-7">
+			<div class="card">
+				<div class="card-header card-header-icon"
+					data-background-color="rose">
+					<i class="material-icons">assessment</i>
+				</div>
+				<div class="card-content">
+					<h4 class="card-title">New Device</h4>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">Mac Address<star>* HEX</star>
+						</label> <input class="form-control" ng-model="macAddress" name="email"
+							type="text" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+					<div class="category form-category">
+						<star>*</star>
+						Required fields
+					</div>
+					<div class="row">
+						<div class="text-center">
+							<button ng-click="addDevice()" type="submit"
+								class="btn btn-rose btn-fill btn-wd">Validate</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				<div class="col-md-6 ">
+			<div class="card card-stats">
+				<div class="card-header" data-background-color="orange">
+					<i class="material-icons">filter_list</i>
+				</div>
+
+				<div class="card-content">
+					<p class="category">Filter</p>
+
+					<form class="navbar-form navbar-left ng-pristine ng-valid"
+						role="search">
+
+						<div class="form-group is-empty">
+							<input type="text" class="form-control" ng-model="macAddressFilter"
+								placeholder="Search" ng-click="showFilter=true"> <span
+								class="material-input"></span> <span class="material-input"></span>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer"></div>
+			</div>
+		</div>
+		<div class="col-md-12" ng-init="loadBoitier()" >
+		<div class="card">
+			<h4 class="card-title"></h4>
+			<div class="card-content">
+				<div class="row"></div>
+				<div class="row">
+					<div class="table-responsive">
+						<table class="table table-shopping">
+							<thead>
+								<tr>
+									<td colspan="6"></td>
+								</tr>
+								<tr>
+									<th class="text-center"></th>
+									<th>Date</th>
+									<th class="th-description">Mac Address</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr ng-repeat="b in boitiers | filter:{macAddress:macAddressFilter}">
+									<td>
+										<div class="img-container">
+											<img ng-src="https://firebasestorage.googleapis.com/v0/b/brackets-157800.appspot.com/o/boitier.png?alt=media&token=6228adcb-eff6-473c-bdf4-115d6f0e25be" alt="...">
+										</div>
+									</td>
+									<td class="td-name"><a href="#jacket">{{b.date}}</a> <br>
+										<small></small><br></td>
+									<td class="">{{b.macAddress}}</td>
+									<td class="td-number"><small></small></td>
+									<td class="td-actions">
+										<button ng-click="enableArome(a)" ng-if="b.enabled == true"
+											type="button" rel="tooltip" class="btn btn-success"
+											data-original-title="" title="Approve">
+											<i class="material-icons">done</i>
+											<div class="ripple-container"></div>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="5"></td>
+									<td class="td-total"></td>
+									<td colspan="1" class="td-price"><small></small></td>
+									<td></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

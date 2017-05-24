@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8" />
+<title>Brackets</title>
+</head>
+<body>
+	<div ng-app="myApp" ng-controller="myAppController">
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header" data-background-color="purple">
+						<h4 class="title">ADD A NEW PRODUCT</h4>
+						<p class="category">--</p>
+					</div>
+					<div class="card-content">
+						<form>
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group ">
+										<div class="alert alert-success" ng-show="showSuccessAlert">
+											<button type="button" class="close"
+												data-ng-click="switchBool('showSuccessAlert')">×</button>
+											<strong>Success!</strong> Product Successfully Added.
+										</div>
+										<div class="alert alert-danger" ng-show="showErrorAlert">
+											<button type="button" class="close"
+												data-ng-click="switchBool2('showErrorAlert')">×</button>
+											<strong>Error!</strong> Somthing went wrong, Try again.
+										</div>
+									</div>
+
+									<div class="form-group label-floating ">
+										<input type="text" ng-model="pName" class="form-control"
+											placeholder="PRODUCT NAME" value="" />
+									</div>
+
+									<div class="form-group">
+										<input type="text" ng-model="pPrix" class="form-control"
+											placeholder="PRODUCT PRICE" value="" />
+									</div>
+									<div class="form-group">
+										<input type="text" ng-model="pImageUrl" class="form-control"
+											placeholder="PRODUCT IMAGE (URL)" value=""
+											ng-change="picSelectedImage()" />
+									</div>
+									<div class="form-group">
+										<img ng-src="{{defaultImageUrl}}" class="img-circle"
+											style="height: 100px; width: 80px;" alt="Choose an Image"></img>
+									</div>
+								</div>
+							</div>
+						</form>
+						<button type="button" class="btn btn-primary pull-right"
+							ng-click="addProduct()">ADD</button>
+						<div class="clearfix"></div>
+
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header" data-background-color="purple">
+						<h4 class="title">FIND PRODUCT</h4>
+						<p class="category">--</p>
+					</div>
+					<div class="card-content">
+
+						<div class="row">
+							<div class="col-md-5">
+								<div class="form-group">
+									<input type="text" ng-model="productName" class="form-control"
+										placeholder="PRODUCT NAME" value="" ng-change="loadProduct()" />
+								</div>
+								<button type="submit"
+									class="btn btn-white btn-round btn-just-icon">
+									<i class="material-icons" ng-click="loadProduct()">search</i>
+								</button>
+								<div class="ripple-container"></div>
+								<div class="clearfix"></div>
+
+							</div>
+						</div>
+						<button class="btn btn-primary pull-right"
+							ng-click="loadProduct()">SHOW PRODUCT</button>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6" ng-show="notes">
+				<div class="card">
+					<div class="content" >
+						<div class="col-md-10">
+							<div class="form-group ">
+								<div class="alert alert-info" ng-show="true">
+									<button type="button" class="close" data-ng-click="">×</button>
+									<strong>No customisation found for   this product!</strong> Start
+									customisation now.
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="form-group">
+								<select class="form-control">
+									<option ng-repeat="n in notes" value="{{n.id}}">{{n.name}}</option>
+
+								</select>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<button type="button" class="btn btn-primary ">CHOOSE</button>
+						</div>
+
+						<div class="col-md-9">
+							<div class="form-group">
+							<label>ORANGE</label>
+								<input type="number" class="form-control"
+									placeholder="proportion %" value="" />
+							</div>
+							<div class="form-group">
+								<button type="button" class="btn btn-primary pull-right"
+									style="margin-right: 30px">SUBMIT</button>
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-init="">
+			<div ng-if="products">
+				<div class="col-md-2" ng-repeat="p in products">
+					<div class="card card-user">
+						<img ng-src="{{p.imageUrl}}" alt="Rounded Image"
+							class="img-rounded img-responsive" style="height: 200px">
+
+						<div class="content">
+
+							<p class="description text-center">
+								{{p.name}}<br></br> {{p.prix}}<br></br>{{p.creationDate |
+								date:'yyyy-MM-dd'}}<br></br>
+								<button type="button" class="btn btn-primary "
+									ng-click="customize(p)">CUSTOMIZE</button>
+							<div class="clearfix"></div>
+
+
+						</div>
+						<hr></hr>
+						<div class="text-center"></div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

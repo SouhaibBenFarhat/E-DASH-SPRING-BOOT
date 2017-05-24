@@ -1,0 +1,216 @@
+<div ng-app="myApp" ng-controller="BrowsRecipeController">
+	<div class="collapse navbar-collapse">
+		<form class="navbar-form navbar-right" role="search">
+			<div class="form-group  is-empty">
+				<input type="text" class="form-control" ng-model="recipeName"
+					placeholder="Search" /> <span class="material-input"></span>
+			</div>
+			<button type="submit" class="btn btn-white btn-round btn-just-icon">
+				<i class="material-icons">search</i>
+				<div class="ripple-container"></div>
+			</button>
+		</form>
+	</div>
+
+	<div class="content" ng-init="loadRecipe()">
+		<div class="col-md-6">
+			<legend>Display</legend>
+			<div class="togglebutton">
+				<label> <input type="checkbox" ng-click="displayTable()"><span
+					class="toggle"></span> Display as Table
+				</label>
+			</div>
+		</div>
+		<div class="container" ng-if="!showTable">
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center">
+					<h2 class="title"></h2>
+					<h5 class="description"></h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" 
+					ng-repeat="r in recipes | filter:{name:recipeName} | orderBy : '-id'" ng-if="!r.user">
+
+
+
+					<div class="card card-product" data-count="3">
+						<div class="card-image" data-header-animation="true">
+							<a href="#pablo"> <img class="img" ng-src="{{r.imageUrl}}">
+							</a>
+						</div>
+						<div class="card-content">
+							<div class="card-actions">
+							
+							<button type="button" ng-click="deleteRecipe(r)" class="btn btn-danger btn-simple" rel="tooltip" data-placement="bottom" title="Remove">
+                                            <i class="material-icons">close</i>
+                                        </button>
+							
+					
+							</div>
+							<h4 class="card-title">
+								<a href="#pablo">{{r.name}}</a>
+							</h4>
+							<div class="card-description">{{ r.description | limitTo:
+								150 }}{{r.description.length > 20 ? '...' : ''}}
+								<br><button class="btn btn-primary btn-round"  ui-sref="recipeDetail"
+														ng-click="setSelectedRecipe(r)">
+                                        <i class="material-icons">assignment</i> Detail
+                                    <div class="ripple-container"></div></button>
+								</div>
+										
+						</div>
+						
+						
+						<div class="col-md-12">
+							<div class="progress progress-line-danger">
+							
+							
+						<div  class="progress-bar"
+									style="background-color: {{colorArray[0]}};  width:{{(100*r.baseQuantity/r.volume)|number:0.0}}%;">
+									
+								</div>
+								<div ng-repeat="a in r.aromes track by $index" class="progress-bar"
+									style="background-color: {{colorArray[$index+1]}};  width:{{(100*a.quantity/r.volume)|number:0.0}}%;">
+									
+								</div>
+					
+							</div>
+							<div class="bootstrap-tagsinput">
+								<span class="tag label label-info" style="background-color: {{colorArray[0]}};">Base</span>
+								<span ng-repeat="a in r.aromes track by $index" class="tag label label-info" style="background-color: {{colorArray[$index+1]}};">{{ a.arome.arome | limitTo:
+								5 }}{{a.arome.arome.length > 10 ? '...' : ''}}</span>
+							</div>
+							<h6>Aromes</h6>
+								<div class="row">
+								<div class="col-md-10">
+								  <img  style="width: 30px; height: 30px;" ng-src="{{r.base.imageUrl}}" alt="">
+							
+                       			 <img ng-repeat="a in r.aromes" style="width: 30px; height: 30px;" ng-src="{{a.arome.imageUrl}}" alt="">
+           					</div></div>
+           						
+							
+							<h6>Category</h6>
+							<div class="row">
+							<div class="col-md-10">
+							
+							   <img style="width: 30px; height: 30px;" ng-src="{{r.aromes[0].arome.category.imageUrl}}" alt="">
+							
+							   <img ng-repeat="a in r.aromes  | orderBy : '-arome.category.id' track by $index"  ng-if="r.aromes[$index+1].arome.category.id != r.aromes[($index+1)-1].arome.category.id && $index<r.aromes.length-1 "
+							    style="width: 30px; height: 30px;" ng-src="{{r.aromes[$index+1].arome.category.imageUrl}}" alt="">
+		
+							</div>
+							</div>
+						
+						</div>
+						<div class="card-footer">
+
+							<div class="price">
+								<h4>{{r.volume}} ml</h4>
+							</div>
+							<div class="stats pull-right">
+								<p class="category">
+									<i class="material-icons">date_range</i> {{ r.date | limitTo:
+									15 }}{{r.date.length > 15 ? '' : ''}}
+								</p>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+					<!-- 					<div class="card card-pricing card-raised"> -->
+					<!-- 						<div class="card-content"> -->
+
+					<!-- 							<div class="card-avatar"> -->
+					<!-- 								<a href="#pablo"> <img class="img" style="height: 170px;" ng-src="{{r.imageUrl}}"> -->
+					<!-- 								</a> -->
+					<!-- 							</div> -->
+					<!-- 							<div class="card-content"> -->
+					<!-- 								<h6 class="category text-gray">{{r.name}}</h6> -->
+					<!-- 								<h4 class="card-title">{{r.volume}} / ml</h4> -->
+					<!-- 								<p class="description text-left ">{{ r.description | limitTo: 200 }}{{r.description.length > 20 ? '...' : ''}}</p> -->
+					<!-- 								<a href="" ui-sref="recipeDetail" -->
+					<!-- 									ng-click="setSelectedRecipe(r)" class="btn btn-rose btn-round">DETAIL</a> -->
+					<!-- 							</div> -->
+
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-12" ng-if="showTable">
+			<div class="card">
+
+				<h4 class="card-title"></h4>
+				<div class="card-content">
+					<div class="row"></div>
+					<div class="row">
+						<div class="table-responsive">
+							<table class="table table-shopping">
+
+								<thead>
+									<tr>
+
+
+
+										<td colspan="6"></td>
+
+									</tr>
+									<tr>
+										<th class="text-center"></th>
+										<th>Name</th>
+										<th class="th-description">Description</th>
+
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr ng-repeat="r in recipes | filter:{name:recipeName} | orderBy : '-id'">
+										<td>
+											<div class="img-container">
+												<img ng-src="{{r.imageUrl}}" alt="...">
+											</div>
+										</td>
+										<td class="td-name"><a href="#jacket">{{r.name}}</a> <br>
+											<small>by Senso'r</small><br>
+											<button class="btn btn-info" ui-sref="recipeDetail"
+														ng-click="setSelectedRecipe(r)">
+												More Detail
+												<div class="ripple-container"></div>
+											</button></td>
+										<td class="">{{r.description}}</td>
+										<td class="td-number"><small>{{r.date}}</small></td>
+										<td class="td-actions">
+											<button type="button" rel="tooltip" data-placement="left"
+												title="" class="btn btn-simple" ng-click="deleteRecipe(r)"
+												data-original-title="Remove item">
+												<i class="material-icons">close</i>
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="5"></td>
+										<td class="td-total">Total</td>
+										<td colspan="1" class="td-price"><small></small></td>
+										<td></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+</div>

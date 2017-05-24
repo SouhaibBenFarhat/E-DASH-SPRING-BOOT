@@ -1,0 +1,330 @@
+
+<div ng-app="myApp" ng-controller="RecipeController">
+	<div class="row">
+		<div class="col-md-6" ng-show="showStep1">
+			<div class="card">
+				<div class="card-header card-header-icon"
+					data-background-color="rose">
+					<i class="material-icons">dashboard</i>
+				</div>
+				<div class="card-content">
+
+					<h4 class="card-title">New Recipe</h4>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">Name <star>*</star>
+						</label> <input class="form-control" ng-model="name" name="email"
+							type="text" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">Steep <star>*</star>
+						</label> <input class="form-control" ng-model="stip" name="email"
+							type="number" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">Total Volume <star>*</star>
+						</label> <input class="form-control" ng-model="volume" name="email"
+							type="number" step="0.01" email="true" required="true"
+							aria-required="true"> <span class="material-input"></span>
+					</div>
+					<div class="form-group">
+						<label></label>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Put a brief description for
+								your new Aroma*</label>
+							<textarea ng-model="description" class="form-control" rows="5"></textarea>
+							<span class="material-input"></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class=" col-md-3 " ng-init="loadBase()">
+								<label class="control-label">Choose Recipe base <star>*</star>
+								</label>
+								<div class="dropdown">
+									<button href="#"
+										class="dropdown-toggle btn btn-primary btn-round btn-block"
+										data-toggle="dropdown">
+										{{selectedbase.pg}} / {{selectedbase.vg}}
+										/{{selectedbase.nicotine}} <b class="caret"></b>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-left">
+										<li ng-repeat="b in bases" ng-click="setSelectedBase(b)"><a
+											href=""><b>PG </b>{{b.pg}} / <b>VG </b>{{b.vg}} /<b>Nicotine
+											</b>{{b.nicotine}}</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class=" col-md-6 ">
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Base Volume <star>*</star></label>
+									<input class="form-control" ng-model="baseQuantity"
+										name="email" type="number" step="0.01" email="true"
+										required="true" aria-required="true"> <span
+										class="material-input"></span>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-4 col-sm-4">
+								<legend></legend>
+								<div class="fileinput fileinput-new text-center"
+									data-provides="fileinput">
+									<div class="fileinput-new thumbnail" id="placeholder">
+										<img src="/img/image_placeholder.jpg" alt="...">
+									</div>
+									<div class="fileinput-preview fileinput-exists thumbnail"
+										id="selected_file"></div>
+									<div>
+										<span class="btn btn-rose btn-round btn-file"> <span
+											class="fileinput-new">Select image</span> <span
+											class="fileinput-exists">Change</span> <input type="hidden" />
+											<input type="file" id="files" name="file" accept="image/*" />
+											<div class="ripple-container"></div>
+										</span> <a href="#pablo"
+											class="btn btn-danger btn-round fileinput-exists"
+											data-dismiss="fileinput"><i class="fa fa-times"></i>Remove</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" style="margin-right: 15px;">
+						<div class="text-right">
+							<button ng-click="displayStep2()" type="submit"
+								class="btn btn-rose btn-fill btn-wd">Next</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header card-header-icon"
+					data-background-color="rose">
+					<i class="material-icons">assignment</i>
+				</div>
+				<div class="card-content">
+					<h4 class="card-title">Recipe Composition</h4>
+					<form class="form-horizontal">
+						<div class="row">
+							<div class="col-md-10 " ng-if="selectedbase">
+								<div class="card card-stats">
+									<div class="card-header" data-background-color="purple">
+										<i class="material-icons">assessment</i>
+									</div>
+									<div class="card-content">
+										<div class="card-avatar">
+											<a href="#pablo"> <img class="img"
+												ng-src="{{selectedbase.imageUrl}}"
+												style="height: 30px; width: 30px">
+											</a>
+										</div>
+										<p class="category ng-binding">{{selectedbase.pg}} /
+											{{selectedbase.vg}} / {{selectedbase.nicotine}}</p>
+										<h3 class="card-title">Base</h3>
+									</div>
+									<div class="card-footer">
+										<div class="stats ng-binding">
+											<i class="material-icons">info</i>
+											{{selectedbase.description}}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-10 ">
+								<div class="card card-stats">
+									<div class="card-header" data-background-color="rose">
+										<i class="material-icons">equalizer</i>
+									</div>
+									<div class="card-content">
+										<div class="table-responsive table-sales">
+											<table class="table">
+												<tbody>
+													<tr ng-if="selectedbase">
+														<td>
+															<h5>Base</h5>
+														</td>
+														<td class="text-right ng-binding">{{selectedbase.pg}}
+															/ {{selectedbase.vg}} / {{selectedbase.nicotine}} mg</td>
+														<td class="text-right ng-binding">{{baseQuantity}}</td>
+														<td class="text-right ng-binding">{{(100*baseQuantity/volume)|
+															number:0.0}} %</td>
+													</tr>
+													<!-- ngRepeat: a in recipe.aromes -->
+													<tr ng-repeat="a in AromesArray track by $index">
+														<td>
+															<div class="flag">
+																<img ng-src="{{a.imageUrl}}">
+															</div>
+														</td>
+														<td class="ng-binding">{{a.arome}}</td>
+														<td class="text-right ng-binding">{{quantityArray[$index]}}</td>
+														<td class="text-right ng-binding">{{(100*quantityArray[$index]/volume)|
+															number:0.0}} %</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="flag"></div>
+														</td>
+
+														<td class="text-right" colspan="2"><h5>Total
+																Arome:</h5></td>
+														<td class="text-right ng-binding">{{totaAromeForCheck}}
+															ml</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="flag"></div>
+														</td>
+
+														<td class="text-right" colspan="2"><h5>Total
+																Quantity:</h5></td>
+														<td class="text-right ng-binding">{{volume}} ml</td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+								</div>
+								<div class="progress progress-line-primary">
+									<div class="progress-bar" role="progressbar" aria-valuenow="60"
+										aria-valuemin="0" aria-valuemax="100" style="width: {{(100*(baseQuantity+totaAromeForCheck)/volume)|
+															number:0.0}}%;">
+										<span class="sr-only">60% Complete</span>
+									</div>
+								</div>
+								<div class="alert alert-danger" ng-if="combinationError">
+									<button type="button" aria-hidden="true" class="close">
+										<i class="material-icons">close</i>
+									</button>
+									<span> <b> Attention - </b> Please check Aromas values
+									</span>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6" ng-show="showStep2">
+			<div class="card">
+				<div class="card-header card-header-icon"
+					data-background-color="rose">
+					<i class="material-icons">invert_colors</i>
+				</div>
+				<div class="card-content">
+					<h4 class="card-title">Cutomize Aroma</h4>
+					<div class="form-group label-floating is-empty">
+						<label class="control-label">How many Arome <star>*</star>
+						</label> <input class="form-control" ng-model="arome_number" name="email"
+							type="number" email="true" required="true" aria-required="true">
+						<span class="material-input"></span>
+					</div>
+
+					<div class="alert alert-danger" ng-show="error">
+						<button type="button" aria-hidden="true" class="close"
+							ng-click="error=false">
+							<i class="material-icons">close</i>
+						</button>
+						<span> <b> Sorry </b> Arome already selected...
+						</span>
+					</div>
+					<div class="alert alert-warning" ng-show="quantityError">
+						<button type="button" aria-hidden="true" class="close"
+							ng-click="quantityError = false">
+							<i class="material-icons">close</i>
+						</button>
+						<span> <b> Warning - </b> Please Make sur that all quantity
+							are correctly setted
+						</span>
+					</div>
+					<div class="alert alert-warning" ng-show="arome_number>5">
+					
+						<span> <b> Warning - </b> Please Make sur that all quantity
+							are correctly setted
+						</span>
+					</div>
+					
+
+					<div class="row" ng-if=" arome_number>0 && arome_number<6" ng-init="loadAroma()"
+						ng-repeat="i in displayAromaPanel(arome_number) track by $index">
+						<div class="col-lg-4 col-md-6 col-sm-3">
+							<label class="control-label">Aroma {{$index+1}} <star>*</star>
+							</label>
+							<div class="dropdown">
+								<button href="#"
+									class="dropdown-toggle btn btn-primary btn-round btn-block"
+									data-toggle="dropdown">
+									{{AromesArray[$index].arome}} <b class="caret"></b>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-left">
+									<li><input class="form-control" type="text"
+										placeholder="    put aroma name" ng-model="aromaName"
+										aria-required="true"> <span class="material-input"></span>
+
+									</li>
+									<li ng-repeat="a in aromes | filter:{arome:aromaName}"
+										ng-click="insertArome(a); "><a href="">{{a.arome}} by
+											<b>{{a.manufacture.name}}</b>
+									</a></li>
+								</ul>
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Aroma {{$index+1}} Volume <star>*</star>
+								</label> <input class="form-control" id="AromaVolume{{$index}}"
+									name="email" step="0.01" type="number" email="true"
+									ng-keyup="insertQuantity()" required="true"
+									aria-required="true"> <span class="material-input"></span>
+
+							</div>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="text-right">
+							<div class="col-md-10">
+								<button class="btn btn-rose" ng-click="displayStep1()">
+									<span class="btn-label"> <i class="material-icons">keyboard_arrow_left</i>
+									</span> Back
+									<div class="ripple-container"></div>
+								</button>
+
+
+							</div>
+
+						</div>
+						<div class="text-left">
+
+							<div class="col-md-10">
+								<button ng-click="uploadFile()" type="submit"
+									ng-if="combinationError==false"
+									class="btn btn-rose btn-fill btn-wd">Validate</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        md.initSliders()
+        demo.initFormExtendedDatetimepickers();
+    });
+</script>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>NOTE</title>
+</head>
+<body ng-controller="NoteController">
+	<div class="container-fluid" ng-init="loadNote()">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header" data-background-color="purple">
+						<h4 class="title">ADD A NEW NOTE</h4>
+						<p class="category">--</p>
+					</div>
+					<div class="card-content">
+						<form>
+							<div class="row">
+								<div class="col-md-8">
+
+									<div class="form-group label-floating ">
+										<input type="text" ng-model="noteName" class="form-control"
+											placeholder="NOTE NAME" value="" />
+									</div>
+									<div class="form-group label-floating ">
+										<input type="number" ng-model="notePrix" class="form-control"
+											placeholder="NOTE PRICE" value="" />
+									</div>
+
+									<div class="form-group">
+										
+									</div>
+								</div>
+							</div>
+						</form>
+						<button type="button" class="btn btn-primary pull-right"
+							ng-click="addNote()">ADD</button>
+						<div class="clearfix"></div>
+
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-12">
+				<form class="navbar-form navbar-right" role="search">
+							<div class="form-group  is-empty">
+								<input type="text" class="form-control" placeholder="Search" ng-model="noteName" />
+								<span class="material-input"></span>
+							</div>
+							<button type="submit"
+								class="btn btn-white btn-round btn-just-icon">
+								<i class="material-icons">search</i>
+								<div class="ripple-container"></div>
+							</button>
+						</form>
+				<div class="card">
+				
+					<div class="card-header" data-background-color="purple">
+					
+						<h4 class="title">NOTES AVAILABLE</h4>
+						<p class="category"></p>
+					</div>
+					<div class="card-content table-responsive">
+						<table class="table">
+							<thead class="text-primary">
+								<tr>
+									<th>Name</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="n in notes | filter:{name:noteName}">
+									<td>{{n.name}}</td>
+									<td>{{n.prix}}</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</body>
+</html>

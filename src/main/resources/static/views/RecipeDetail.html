@@ -1,0 +1,319 @@
+
+<div class="row" ng-controller="RecipeDetailController">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					Recipe -<small>{{recipe.name}}</small>
+				</h4>
+			</div>
+			<div class="card-content">
+				<ul class="nav nav-pills nav-pills-info">
+
+					<li class="active"><a href="#pill1" target="_self"
+						data-toggle="tab" aria-expanded="true">Recipe Detail</a></li>
+					<li class="" ng-click="initChart()"><a href="#pill2"
+						target="_self" data-toggle="tab" aria-expanded="false">Combination</a></li>
+					<li class=""><a href="#pill3" target="_self" data-toggle="tab"
+						aria-expanded="false">Options</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="pill1">
+						<div class="col-md-5">
+							<div class="card card-profile">
+								<div class="card-avatar">
+									<a href="#pablo"> <img class="img"
+										ng-src="{{recipe.imageUrl}}">
+									</a>
+								</div>
+								<div class="card-content">
+									<h6 class="category text-gray">{{recipe.name}}</h6>
+									<h4 class="card-title">{{recipe.date}}</h4>
+									<p class="description">{{recipe.description}}</p>
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5 ">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="rose">
+									<i class="material-icons">equalizer</i>
+								</div>
+								<div class="card-content">
+									<div class="table-responsive table-sales">
+										<table class="table">
+											<tbody>
+												<tr>
+													<td>
+														<h5>Base</h5>
+													</td>
+													<td class="text-right">{{recipe.base.pg}} /
+														{{recipe.base.vg}} / {{recipe.base.nicotine}} mg</td>
+													<td class="text-right">{{recipe.baseQuantity}} ml</td>
+													<td class="text-right">{{(100*recipe.baseQuantity/recipe.volume)|
+														number:0.0}} %</td>
+												</tr>
+												<tr ng-repeat="a in recipe.aromes">
+													<td>
+														<div class="flag">
+															<img ng-src="{{a.arome.imageUrl}}">
+														</div>
+													</td>
+													<td>{{a.arome.arome}}</td>
+													<td class="text-right">{{a.quantity}} ml</td>
+													<td class="text-right">{{(100*a.quantity/recipe.volume)|
+														number:0.0}} %</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="flag"></div>
+													</td>
+
+													<td class="text-right" colspan="2"><h5>Total
+															Arome:</h5></td>
+													<td class="text-right">{{recipe.totalAromeQuantity}}
+														ml</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="flag"></div>
+													</td>
+
+													<td class="text-right" colspan="2"><h5>Total
+															Quantity:</h5></td>
+													<td class="text-right">{{recipe.volume}} ml</td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<div class="tab-pane" id="pill2">
+						<div class="col-md-12">
+							<legend></legend>
+							<div class="row">
+								<div class="col-md-5 ">
+									<div class="card card-stats">
+										<div class="card-header" data-background-color="purple">
+											<i class="material-icons">assessment</i>
+										</div>
+										<div class="card-content">
+											<p class="category">{{recipe.base.pg}} /
+												{{recipe.base.vg}} / {{recipe.base.nicotine}} mg</p>
+											<h3 class="card-title">Base</h3>
+										</div>
+										<div class="card-footer">
+											<div class="stats">
+												<i class="material-icons">info</i>
+												{{recipe.base.description}}
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-2 ">
+									<div class="card card-stats">
+										<div class="card-header" data-background-color="purple">
+											<i class="material-icons">av_timer</i>
+										</div>
+										<div class="card-content">
+											<p class="category">Steep</p>
+											<h3 class="card-title">{{recipe.stip}} Jours</h3>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-5 ">
+									<div class="card card-stats">
+										<div class="card-header" data-background-color="rose">
+											<i class="material-icons">equalizer</i>
+										</div>
+										<div class="card-content">
+											<div class="table-responsive table-sales">
+												<table class="table">
+													<tbody>
+														<tr>
+															<td>
+																<h5>Base</h5>
+															</td>
+															<td class="text-right">{{recipe.base.pg}} /
+																{{recipe.base.vg}} / {{recipe.base.nicotine}} mg</td>
+															<td class="text-right">{{recipe.baseQuantity}} ml</td>
+															<td class="text-right">{{(100*recipe.baseQuantity/recipe.volume)|
+																number:0.0}} %</td>
+														</tr>
+														<tr ng-repeat="a in recipe.aromes">
+															<td>
+																<div class="flag">
+																	<img ng-src="{{a.arome.imageUrl}}">
+																</div>
+															</td>
+															<td>{{a.arome.arome}}</td>
+															<td class="text-right">{{a.quantity}} ml</td>
+															<td class="text-right">{{(100*a.quantity/recipe.volume)|
+																number:0.0}} %</td>
+														</tr>
+														<tr>
+															<td>
+																<div class="flag"></div>
+															</td>
+
+															<td class="text-right" colspan="2"><h5>Total
+																	Arome:</h5></td>
+															<td class="text-right">{{recipe.totalAromeQuantity}}
+																ml</td>
+														</tr>
+														<tr>
+															<td>
+																<div class="flag"></div>
+															</td>
+
+															<td class="text-right" colspan="2"><h5>Total
+																	Quantity:</h5></td>
+															<td class="text-right">{{recipe.volume}} ml</td>
+														</tr>
+
+													</tbody>
+												</table>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="col-md-5">
+									<div class="card">
+										<div class="card-header card-header-icon"
+											data-background-color="red">
+											<i class="material-icons">pie_chart</i>
+										</div>
+										<div class="card-content">
+											<h4 class="card-title">Pie Chart</h4>
+										</div>
+										<div id="chartPreferences" class="ct-chart"></div>
+										<div class="card-footer">
+											<h6>Aromes</h6>
+											<div class="bootstrap-tagsinput" ng-init="initChart()">
+												<span ng-repeat="a in recipe.aromes"
+													class="tag label label-warning">{{a.arome.arome}}<span
+													data-role="remove"></span></span> <br> <br>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<legend></legend>
+
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-header card-header-icon"
+										data-background-color="green">
+										<i class="material-icons">invert_colors</i>
+									</div>
+									<h4 class="card-title"></h4>
+									<div class="card-content">
+										<div class="table-responsive">
+											<table class="table table-shopping">
+												<thead>
+													<tr>
+														<th class="text-center"></th>
+														<th>Arome</th>
+														<th class="th-description">Description</th>
+														<th class="th-description">Date</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="a in recipe.aromes ">
+														<td>
+															<div class="img-container">
+																<img ng-src="{{a.arome.imageUrl}}" alt="...">
+															</div>
+														</td>
+														<td class="td-name"><a>{{a.arome.arome}}</a> <br>
+															<small>by {{a.arome.manufacture.name}} </small><br>
+															<button class="btn btn-raised btn-round btn-info"
+																data-toggle="modal" data-target="#aromaDetail"
+																ng-click="setSelectedAroma(a.arome)">
+																More Detail
+																<div class="ripple-container"></div>
+															</button></td>
+														<td>{{a.arome.description}}</td>
+														<td>{{a.arome.date}}</td>
+													</tr>
+													<tr>
+														<td colspan="5"></td>
+														<td class="td-total"></td>
+														<td colspan="1" class="td-price"><small></small></td>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="pill3"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="aromaDetail" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-notice">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+						<i class="material-icons">clear</i>
+					</button>
+					<h5 class="modal-title" id="myModalLabel">{{selectedAroma.arome}}</h5>
+				</div>
+				<div class="modal-body">
+					<div class="instruction">
+						<div class="row">
+							<div class="col-md-8">
+								<strong>1. Category: </strong>{{selectedAroma.category.category}}
+								<p>{{selectedAroma.category.description}}</p>
+							</div>
+							<div class="col-md-4">
+								<div class="picture">
+									<img ng-src="{{selectedAroma.category.imageUrl}}"
+										alt="Thumbnail Image" class="img-rounded img-responsive">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="instruction">
+						<div class="row">
+							<div class="col-md-8">
+								<strong>2. Manufacturer: </strong>{{selectedAroma.manufacture.name}}
+								<p>{{selectedAroma.manufacture.description}}</p>
+							</div>
+							<div class="col-md-4">
+								<div class="picture">
+									<img ng-src="{{selectedAroma.manufacture.imageUrl}}"
+										alt="Thumbnail Image" class="img-rounded img-responsive">
+								</div>
+							</div>
+						</div>
+					</div>
+					<p></p>
+				</div>
+				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-info btn-round"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

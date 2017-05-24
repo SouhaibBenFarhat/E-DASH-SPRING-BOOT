@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div ng-app="myApp" ng-controller="AromaController">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header card-header-icon"
+						data-background-color="rose">
+						<i class="material-icons">loyalty</i>
+					</div>
+					<div class="card-content">
+						<h4 class="card-title">New Aroma</h4>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Name <star>*</star>
+							</label> <input class="form-control" ng-model="arome" name="email"
+								type="text" email="true" required="true" aria-required="true">
+							<span class="material-input"></span>
+						</div>
+
+						<div class="form-group">
+							<label></label>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Put a brief description for
+									your new Aroma*</label>
+								<textarea ng-model="description" class="form-control" rows="5"></textarea>
+								<span class="material-input"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-lg-4 col-md-6 col-sm-3"
+									ng-init="loadManufacture()">
+									<label class="control-label">Choose a Manufacturer <star>*</star>
+									</label>
+									<div class="dropdown">
+										<button href="#"
+											class="dropdown-toggle btn btn-primary btn-round btn-block"
+											data-toggle="dropdown">
+											{{selectedManufacture.name}} <b class="caret"></b>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-left">
+											<li ng-repeat="m in manufactures"
+												ng-click="setSelectedManufacture(m)"><a href="">{{m.name}}</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-6 col-sm-3" ng-init="loadCategory()">
+									<label class="control-label">Choose a Category <star>*</star>
+									</label>
+									<div class="dropdown">
+										<button href="#"
+											class="dropdown-toggle btn btn-primary btn-round btn-block"
+											data-toggle="dropdown">
+											{{selectedCategory.category}} <b class="caret"></b>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-left">
+											<li ng-repeat="c in categories"
+												ng-click="setSelectedCategory(c)"><a href="">{{c.category}}</a></li>
+										</ul>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-4 col-sm-4">
+									<legend></legend>
+									<div class="fileinput fileinput-new text-center"
+										data-provides="fileinput">
+										<div class="fileinput-new thumbnail" id="placeholder">
+											<img src="/img/image_placeholder.jpg" alt="...">
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail"
+											id="selected_file"></div>
+										<div>
+											<span class="btn btn-rose btn-round btn-file"> <span
+												class="fileinput-new">Select image</span> <span
+												class="fileinput-exists">Change</span> <input type="hidden" />
+												<input type="file" id="files" name="file" accept="image/*" />
+												<div class="ripple-container"></div>
+											</span> <a href="#pablo"
+												class="btn btn-danger btn-round fileinput-exists"
+												data-dismiss="fileinput"><i class="fa fa-times"></i>Remove</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="text-center">
+								<button ng-click="uploadFile()" type="submit"
+									class="btn btn-rose btn-fill btn-wd">Validate</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6" ng-if="selectedManufacture || selectedCategory">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">
+							Choosen Parameters - <small class="category">Manufacture
+								- Category</small>
+						</h4>
+					</div>
+					<div class="card-content">
+						<div class="row">
+							<div class="col-md-4">
+								<ul
+									class="nav nav-pills nav-pills-icons nav-pills-rose nav-stacked"
+									role="tablist">
+									<li class="active" ng-if="selectedManufacture"><a
+										href="#dashboard-2" role="tab" data-toggle="tab"
+										aria-expanded="true"> <i class="material-icons">store</i>
+											Manufacture
+									</a></li>
+									<li class="" ng-if="selectedCategory"><a
+										href="#schedule-2" role="tab" data-toggle="tab"
+										aria-expanded="false"> <i class="material-icons">clear_all</i>
+											Category
+									</a></li>
+								</ul>
+							</div>
+							<div class="col-md-8">
+								<div class="tab-content">
+									<div class="tab-pane active" id="dashboard-2"
+										ng-if="selectedManufacture">
+										<div class="col-md-10">
+											<div class="card card-profile">
+												<div class="card-avatar">
+													<a href="#pablo"> <img class="img"
+														src="{{selectedManufacture.imageUrl}}">
+													</a>
+												</div>
+												<div class="card-content">
+													<h6 class="category text-gray"></h6>
+													<h4 class="card-title">{{selectedManufacture.name}}</h4>
+													<p class="description">{{selectedManufacture.description}}</p>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane" id="schedule-2" ng-if="selectedCategory">
+										<div class="col-md-10">
+											<div class="card card-profile">
+												<div class="card-avatar">
+													<a href="#pablo"> <img class="img"
+														src="{{selectedCategory.imageUrl}}">
+													</a>
+												</div>
+												<div class="card-content">
+													<h6 class="category text-gray"></h6>
+													<h4 class="card-title">{{selectedCategory.category}}</h4>
+													<p class="description">{{selectedCategory.description}}</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">
+							Aroma Detail - <small class="category">Select Aroma to
+								Display</small>
+						</h4>
+					</div>
+					<div class="card-content">
+						<div class="row">
+							<div class="col-md-4">
+								<ul class="nav nav-pills nav-pills-rose nav-stacked">
+									<li class="active"><a href="#tab1" data-toggle="tab">Aroma</a></li>
+									<li><a href="#tab2" data-toggle="tab">Category</a></li>
+									<li><a href="#tab3" data-toggle="tab">Manufacture</a></li>
+								</ul>
+							</div>
+							<div class="col-md-8">
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab1">
+										<div class="col-md-10">
+											<div class="card card-product" data-count="2">
+												<div class="card-image" data-header-animation="true">
+													<a href="#pablo"> <img class="img"
+														ng-src="{{aromaForDetail.imageUrl}}">
+													</a>
+												</div>
+												<div class="card-content">
+													<div class="card-actions"></div>
+													<h4 class="card-title">
+														<a href="#pablo">{{aromaForDetail.arome}}</a>
+													</h4>
+													<div class="card-description">{{aromaForDetail.description}}</div>
+												</div>
+												<div class="card-footer">
+													<div class="price">
+														<h4>{{aromaForDetail.date}}</h4>
+													</div>
+													<div class="stats pull-right">
+														<p class="category">
+															<i class="material-icons">place</i>
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane" id="tab2">
+										<div class="col-md-10">
+											<div class="card card-product" data-count="2">
+												<div class="card-image" data-header-animation="true">
+													<a href="#pablo"> <img class="img"
+														ng-src="{{aromaForDetail.category.imageUrl}}">
+													</a>
+												</div>
+												<div class="card-content">
+													<div class="card-actions"></div>
+													<h4 class="card-title">
+														<a href="#pablo">{{aromaForDetail.category.category}}</a>
+													</h4>
+													<div class="card-description">{{aromaForDetail.category.description}}</div>
+												</div>
+												<div class="card-footer">
+													<div class="price">
+														<h4>{{aromaForDetail.category.date}}</h4>
+													</div>
+													<div class="stats pull-right">
+														<p class="category">
+															<i class="material-icons">place</i>
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="tab-pane" id="tab3">
+
+										<div class="col-md-10">
+											<div class="card card-product" data-count="2">
+												<div class="card-image" data-header-animation="true">
+													<a href="#pablo"> <img class="img"
+														ng-src="{{aromaForDetail.manufacture.imageUrl}}">
+													</a>
+												</div>
+												<div class="card-content">
+													<div class="card-actions"></div>
+													<h4 class="card-title">
+														<a href="#pablo">{{aromaForDetail.manufacture.name}}</a>
+													</h4>
+													<div class="card-description">{{aromaForDetail.manufacture.description}}</div>
+												</div>
+												<div class="card-footer">
+													<div class="price">
+														<h4>{{aromaForDetail.manufacture.date}}</h4>
+													</div>
+													<div class="stats pull-right">
+														<p class="category">
+															<i class="material-icons">place</i>
+															{{aromaForDetail.manufacture.address}}
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 ">
+			<div class="card card-stats">
+				<div class="card-header" data-background-color="orange">
+					<i class="material-icons">filter_list</i>
+				</div>
+
+				<div class="card-content">
+					<p class="category">Filter</p>
+
+					<div ng-show="showFilter">
+						<br> <br> <br> <select class="form-control"
+							data-style="select-with-transition" title="Choose Category"
+							data-size="5" ng-model="choosenCategory"
+							ng-options="c.category for c in categories track by c.id">
+
+							<option value="">-- All Category --</option>
+
+						</select><br> <select class="form-control"
+							data-style="select-with-transition" title="Choose Manufacturer"
+							data-size="5" ng-model="choosenManufacturer"
+							ng-options="m.name for m in manufactures track by m.id">
+
+							<option value="">-- All Manufacturer --</option>
+
+
+
+						</select>
+					</div>
+
+
+					<form class="navbar-form navbar-left ng-pristine ng-valid"
+						role="search">
+
+						<div class="form-group is-empty">
+							<input type="text" class="form-control" ng-model="aromeName"
+								placeholder="Search" ng-click="showFilter=true"> <span
+								class="material-input"></span> <span class="material-input"></span>
+						</div>
+						<button type="submit"
+							class="btn btn-white btn-round btn-just-icon">
+							<i class="material-icons">search</i>
+							<div class="ripple-container"></div>
+						</button>
+					</form>
+				</div>
+				<div class="card-footer"></div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">
+						<small></small>
+					</h4>
+				</div>
+				<div class="card-content">
+					<ul class="nav nav-pills nav-pills-warning">
+						<li class="active"><a href="#pill1" target="_self"
+							data-toggle="tab" aria-expanded="true" ng-click="loadAroma()">All Aromas</a></li>
+						<li><a href="#pill2" target="_self" data-toggle="tab"
+							aria-expanded="false" ng-click="loadAroma()">Users Aromas</a></li>
+						<li><a href="#pill3" target="_self" data-toggle="tab" ng-click="loadDisabledAroma()">Suggestions</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="pill1">
+
+							<div class="col-md-12" ng-init="loadAroma()">
+								<div class="card">
+
+									<h4 class="card-title"></h4>
+									<div class="card-content">
+										<div class="row"></div>
+										<div class="row">
+											<div class="table-responsive">
+												<table class="table table-shopping">
+
+													<thead>
+														<tr>
+
+
+
+															<td colspan="6"></td>
+
+														</tr>
+														<tr>
+															<th class="text-center"></th>
+															<th>Name</th>
+															<th class="th-description">Description</th>
+
+															<th></th>
+														</tr>
+													</thead>
+													<tbody>
+
+														<tr ng-repeat="a in aromas | filter:{arome:aromeName}" ng-if="!a.user">
+															<td>
+																<div class="img-container">
+																	<img ng-src="{{a.imageUrl}}" alt="...">
+																</div>
+															</td>
+															<td class="td-name"><a href="#jacket">{{a.arome}}</a>
+																<br> <small>by {{a.manufacture.name}}</small><br>
+																<small ng-if="a.user"><h6>Added by
+																		{{a.user.email}}</h6></small>
+																<button class="btn btn-info"
+																	ng-click="displayAromaDetail(a)">
+																	More Detail
+																	<div class="ripple-container"></div>
+																</button></td>
+															<td class="">{{a.description}}</td>
+															<td class="td-number"><small>{{a.date}}</small></td>
+															<td class="td-actions">
+																<button type="button" rel="tooltip"
+																	data-placement="left" title="" class="btn btn-simple"
+																	ng-click="deleteArome(a)"
+																	data-original-title="Remove item">
+																	<i class="material-icons">close</i>
+																</button>
+																<button ng-click="enableArome(a)"
+																	ng-if="a.enabled == false" type="button" rel="tooltip"
+																	class="btn btn-success" data-original-title=""
+																	title="Approve">
+																	<i class="material-icons">done</i>
+																	<div class="ripple-container"></div>
+																</button>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="5"></td>
+															<td class="td-total">Total</td>
+															<td colspan="1" class="td-price"><small></small></td>
+															<td></td>
+														</tr>
+
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+						<div class="tab-pane " id="pill2">
+							<div class="col-md-12" ng-init="loadAroma()">
+								<div class="card">
+
+									<h4 class="card-title"></h4>
+									<div class="card-content">
+										<div class="row"></div>
+										<div class="row">
+											<div class="table-responsive">
+												<table class="table table-shopping">
+													<thead>
+														<tr>
+															<td colspan="6"></td>
+														</tr>
+														<tr>
+															<th class="text-center"></th>
+															<th>Name</th>
+															<th class="th-description">Description</th>
+															<th></th>
+														</tr>
+													</thead>
+													<tbody>
+
+														<tr ng-repeat="a in aromas | filter:{arome:aromeName}" ng-if="a.user">
+															<td>
+																<div class="img-container">
+																	<img ng-src="{{a.imageUrl}}" alt="...">
+																</div>
+															</td>
+															<td class="td-name"><a href="#jacket">{{a.arome}}</a>
+																<br> <small>by {{a.manufacture.name}}</small><br>
+																<small ng-if="a.user"><h6>Added by
+																		{{a.user.email}}</h6></small>
+																<button class="btn btn-info"
+																	ng-click="displayAromaDetail(a)">
+																	More Detail
+																	<div class="ripple-container"></div>
+																</button></td>
+															<td class="">{{a.description}}</td>
+															<td class="td-number"><small>{{a.date}}</small></td>
+															<td class="td-actions">
+																<button type="button" rel="tooltip"
+																	data-placement="left" title="" class="btn btn-simple"
+																	ng-click="deleteArome(a)"
+																	data-original-title="Remove item">
+																	<i class="material-icons">close</i>
+																</button>
+																<button ng-click="enableArome(a)"
+																	ng-if="a.enabled == false" type="button" rel="tooltip"
+																	class="btn btn-success" data-original-title=""
+																	title="Approve">
+																	<i class="material-icons">done</i>
+																	<div class="ripple-container"></div>
+																</button>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="5"></td>
+															<td class="td-total">Total</td>
+															<td colspan="1" class="td-price"><small></small></td>
+															<td></td>
+														</tr>
+
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="pill3">
+
+							<div class="col-md-12" ng-init="loadDisabledAroma()">
+								<div class="card">
+
+									<h4 class="card-title"></h4>
+									<div class="card-content">
+										<div class="row"></div>
+										<div class="row">
+											<div class="table-responsive">
+												<table class="table table-shopping">
+													<thead>
+														<tr>
+														<td colspan="6"></td>
+														</tr>
+														<tr>
+															<th class="text-center"></th>
+															<th>Name</th>
+															<th class="th-description">Description</th>
+
+															<th></th>
+														</tr>
+													</thead>
+													<tbody>
+
+														<tr ng-repeat="a in desabledAromas | filter:{arome:aromeName}"
+															ng-if="a.enabled==false">
+															<td>
+																<div class="img-container">
+																	<img ng-src="{{a.imageUrl}}" alt="...">
+																</div>
+															</td>
+															<td class="td-name"><a href="#jacket">{{a.arome}}</a>
+																<br> <small>by {{a.manufacture.name}}</small><br>
+																<small ng-if="a.user"><h6>Added by
+																		{{a.user.email}}</h6></small>
+																<button class="btn btn-info"
+																	ng-click="displayAromaDetail(a)">
+																	More Detail
+																	<div class="ripple-container"></div>
+																</button></td>
+															<td class="">{{a.description}}</td>
+															<td class="td-number"><small>{{a.date}}</small></td>
+															<td class="td-actions">
+																<button type="button" rel="tooltip"
+																	data-placement="left" title="" class="btn btn-simple"
+																	ng-click="deleteArome(a)"
+																	data-original-title="Remove item">
+																	<i class="material-icons">close</i>
+																</button>
+																<button ng-click="enableArome(a)"
+																	ng-if="a.enabled == false" type="button" rel="tooltip"
+																	class="btn btn-success" data-original-title=""
+																	title="Approve">
+																	<i class="material-icons">done</i>
+																	<div class="ripple-container"></div>
+																</button>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="5"></td>
+															<td class="td-total">Total</td>
+															<td colspan="1" class="td-price"><small></small></td>
+															<td></td>
+														</tr>
+
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+</body>
+</html>

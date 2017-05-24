@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Users</title>
+</head>
+<body ng-controller="UserController">
+		<div class="col-md-6 ">
+			<div class="card card-stats">
+				<div class="card-header" data-background-color="orange">
+					<i class="material-icons">filter_list</i>
+				</div>
+
+				<div class="card-content">
+					<p class="category">Filter</p>
+
+					<form class="navbar-form navbar-left ng-pristine ng-valid"
+						role="search">
+
+						<div class="form-group is-empty">
+							<input type="text" class="form-control" ng-model="username"
+								placeholder="Search" ng-click="showFilter=true"> <span
+								class="material-input"></span> <span class="material-input"></span>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer"></div>
+			</div>
+		</div>
+	<div class="col-md-12" ng-if="users">
+		<div class="card">
+
+			<h4 class="card-title"></h4>
+			<div class="card-content">
+				<div class="row"></div>
+				<div class="row">
+					<div class="table-responsive">
+						<table class="table table-shopping">
+							<thead>
+								<tr>
+									<td colspan="6"></td>
+								</tr>
+								<tr>
+									<th class="text-center"></th>
+									<th>Email</th>
+									<th class="th-description">Username</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr ng-repeat="a in users | filter:{email:username}">
+									<td>
+										<div class="img-container">
+											<img ng-src="{{a.profilePicture}}" alt="...">
+										</div>
+									</td>
+									<td class="td-name"><a href="#jacket">{{a.email}}</a> <br>
+										<small>Provider: {{a.provider}}</small><br></td>
+									<td class="">{{a.firstName}} {{a.lastName}}</td>
+									<td class="td-number"><small>{{a.date}}</small></td>
+									<td class="td-actions">
+										<button type="button" rel="tooltip" data-placement="left"
+											title="" class="btn btn-simple" ng-click="deleteArome(a)"
+											data-original-title="Remove item">
+											<i class="material-icons"></i>
+										</button>
+										<button ng-click="enableArome(a)" ng-if="a.enabled == false"
+											type="button" rel="tooltip" class="btn btn-success"
+											data-original-title="" title="Approve">
+											<i class="material-icons">done</i>
+											<div class="ripple-container"></div>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="5"></td>
+									<td class="td-total"></td>
+									<td colspan="1" class="td-price"><small></small></td>
+									<td></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
